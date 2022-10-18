@@ -3,139 +3,146 @@ package game
 import "fmt"
 
 func DrawWelcome() {
-	fmt.Println("Welcome to Hangman!")
-
+	fmt.Println(`
+	|\     /|(  ___  )( (    /|(  ____ \(       )(  ___  )( (    /|
+	| )   ( || (   ) ||  \  ( || (    \/| () () || (   ) ||  \  ( |
+	| (___) || (___) ||   \ | || |      | || || || (___) ||   \ | |
+	|  ___  ||  ___  || (\ \) || | ____ | |(_)| ||  ___  || (\ \) |
+	| (   ) || (   ) || | \   || | \_  )| |   | || (   ) || | \   |
+	| )   ( || )   ( || )  \  || (___) || )   ( || )   ( || )  \  |
+	|/     \||/     \||/    )_)(_______)|/     \||/     \||/    )_)
+	`)
 }
 
 func Draw(g *Game, guess string) {
-	drawTurn(g.TurnsLeft)
+	drawTurns(g.TurnsLeft)
 	drawState(g, guess)
+	fmt.Println()
 }
 
 func drawTurns(l int) {
 	var draw string
 	switch l {
 	case 0:
-		draw = `   
+		draw = (`
 		+---+  
 		|   |  
 		O   |  
 	   /|\  |  
 	   / \  |  
 			|  
-	  =========`
+	  =========`)
 	case 1:
-		`  
-	+---+  
-	|   |  
-	O   |  
-   /|\  |  
-   /    |  
-		|  
-  =========
+		draw = `  
+		+---+  
+		|   |  
+		O   |  
+	   /|\  |  
+	   /    |  
+			|  
+	  =========
   `
 	case 2:
-		`  
-	+---+  
-	|   |  
-	O   |  
-   /|\  |  
-		|  
-		|  
-  =========
+		draw = `  
+		+---+  
+		|   |  
+		O   |  
+	   /|\  |  
+			|  
+			|  
+	  =========
   `
 	case 3:
-		`
-	+---+  
-	|   |  
-	O   |  
-   /|   |  
-		|  
-		|  
-  =========
+		draw = `
+		+---+  
+		|   |  
+		O   |  
+	   /|   |  
+			|  
+			|  
+	  =========
   `
 	case 4:
-		`  
-	+---+  
-	|   |  
-	O   |  
-	|   |  
-		|  
-		|  
-  =========
-  `
+		draw = `
+		+---+  
+		|   |  
+		O   |  
+		|   |  
+			|  
+			|  
+	  =========
+	  `
 	case 5:
-		`
-	+---+  
-	|   |  
-	O   |  
-		|  
-		|  
-		|  
-  =========
-  `
+		draw = `
+		+---+  
+		|   |  
+		O   |  
+			|  
+			|  
+			|  
+	  =========`
+
 	case 6:
-		`
-	+---+  
-	|   |  
-		|  
-		|  
-		|  
-		|  
-  =========
+		draw = `
+		+---+  
+		|   |  
+			|  
+			|  
+			|  
+			|  
+	  =========
   `
 	case 7:
-		`
+		draw = `
 	+---+  
-	|  
-	|  
-	|  
-	|  
-	|  
-=========
+		|  
+		|  
+		|  
+		|  
+		|  
+  =========
 `
 	case 8:
-		`
-	|  
-	|  
-	|  
-	|  
-	|  
-=========
-`
+		draw = `
+		|  
+		|  
+		|  
+		|  
+		|  
+  =========`
 	case 9:
-		`         
-=========
-`
+		draw = `
+		=========`
 	}
 	fmt.Println(draw)
 }
+func drawLetters(g []string) {
+	for _, c := range g {
+		fmt.Printf("%v ", c)
+	}
+	fmt.Println()
+}
 
 func drawState(g *Game, guess string) {
-	fmt.Println("Guessed: ")
+	fmt.Print("Guessed: ")
+	drawLetters(g.FoundLetters)
 
-	fmt.Println("Used: ")
+	fmt.Print("Used: ")
 	drawLetters(g.UsedLetters)
 
 	switch g.State {
 	case "goodGuess":
-		fmt.Println("Good guess!")
+		fmt.Print("Good guess!")
 	case "alreadyGuessed":
-		fmt.Println("You already guessed that letter!")
+		fmt.Printf("Letter '%s' was already used", guess)
 	case "badGuess":
-		fmt.Println("Bad guess! %s is not in the word.", guess)
+		fmt.Printf("Bad guess, '%s' is not in the word", guess)
 	case "lost":
-		fmt.Println("You lost! The word was :")
+		fmt.Print("You lost :(! The word was: ")
 		drawLetters(g.Letters)
 	case "won":
-		fmt.Println("You won!")
+		fmt.Print("YOU WON! The word was: ")
 		drawLetters(g.Letters)
-	}
-}
-
-func drawLetters(l []string) {
-	for _, c := range l {
-		fmt.Printf("%s ", c)
 	}
 	fmt.Println()
 }
