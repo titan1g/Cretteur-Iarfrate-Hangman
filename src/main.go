@@ -14,7 +14,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	g, err := game.New(8, dictionary.PickWord())
+	g, err := game.New(10, dictionary.PickWord())
 	if err != nil {
 		fmt.Printf("Could not create game: %v\n", err)
 		os.Exit(1)

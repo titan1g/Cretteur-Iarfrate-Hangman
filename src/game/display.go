@@ -15,106 +15,15 @@ func DrawWelcome() {
 }
 
 func Draw(g *Game, guess string) {
-	drawTurns(g.TurnsLeft)
+	drawTurns(g, g.TurnsLeft)
 	drawState(g, guess)
 	fmt.Println()
 }
 
-func drawTurns(l int) {
-	var draw string
-	switch l {
-	case 0:
-		draw = (`
-		+---+  
-		|   |  
-		O   |  
-	   /|\  |  
-	   / \  |  
-			|  
-	  =========`)
-	case 1:
-		draw = `  
-		+---+  
-		|   |  
-		O   |  
-	   /|\  |  
-	   /    |  
-			|  
-	  =========
-  `
-	case 2:
-		draw = `  
-		+---+  
-		|   |  
-		O   |  
-	   /|\  |  
-			|  
-			|  
-	  =========
-  `
-	case 3:
-		draw = `
-		+---+  
-		|   |  
-		O   |  
-	   /|   |  
-			|  
-			|  
-	  =========
-  `
-	case 4:
-		draw = `
-		+---+  
-		|   |  
-		O   |  
-		|   |  
-			|  
-			|  
-	  =========
-	  `
-	case 5:
-		draw = `
-		+---+  
-		|   |  
-		O   |  
-			|  
-			|  
-			|  
-	  =========`
-
-	case 6:
-		draw = `
-		+---+  
-		|   |  
-			|  
-			|  
-			|  
-			|  
-	  =========
-  `
-	case 7:
-		draw = `
-	+---+  
-		|  
-		|  
-		|  
-		|  
-		|  
-  =========
-`
-	case 8:
-		draw = `
-		|  
-		|  
-		|  
-		|  
-		|  
-  =========`
-	case 9:
-		draw = `
-		=========`
+func drawTurns(g *Game, l int) {
+	if l < 10 {
+		fmt.Println(g.Hangman[9-l])
 	}
-	fmt.Println(draw)
 }
 func drawLetters(g []string) {
 	for _, c := range g {

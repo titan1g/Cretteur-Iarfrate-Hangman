@@ -11,11 +11,12 @@ type Game struct {
 	FoundLetters []string // letters found
 	UsedLetters  []string // letters used
 	TurnsLeft    int      // remaining turns
+	Hangman      []string // Jose
 }
 
 func New(turns int, word string) (*Game, error) {
 	if len(word) < 3 {
-		return nil, fmt.Errorf("Word '%s' must be at least 3 characters. got=%v", word, len(word))
+		return nil, fmt.Errorf("word '%s' must be at least 3 characters. got=%v", word, len(word))
 	}
 
 	letters := strings.Split(strings.ToUpper(word), "")
@@ -30,6 +31,7 @@ func New(turns int, word string) (*Game, error) {
 		FoundLetters: found,
 		UsedLetters:  []string{},
 		TurnsLeft:    turns,
+		Hangman:      GetHangmanAscii("hangman.txt"),
 	}
 
 	return g, nil
@@ -92,13 +94,4 @@ func (g *Game) RevealLetter(guess string) {
 			g.FoundLetters[i] = guess
 		}
 	}
-}
-
-func letterInword(guess string, letters []string) bool {
-	for _, l := range letters {
-		if l == guess {
-			return true
-		}
-	}
-	return false
 }
