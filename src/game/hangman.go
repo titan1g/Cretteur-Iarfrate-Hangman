@@ -56,6 +56,7 @@ func (g *Game) MakeAGuess(guess string) {
 			g.TurnsLeft -= 2
 
 			if g.TurnsLeft <= 0 {
+				g.TurnsLeft = 0
 				g.State = "lost"
 			}
 		}

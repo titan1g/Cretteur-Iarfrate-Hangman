@@ -24,6 +24,7 @@ func drawTurns(g *Game, l int) {
 	if l < 10 {
 		fmt.Println(g.Hangman[9-l])
 	}
+
 }
 func drawLetters(g []string) {
 	for _, c := range g {
