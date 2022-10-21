@@ -18,8 +18,8 @@ func ReadGuess() (guess string, err error) {
 			return guess, err
 		}
 		guess = strings.TrimSpace(guess)
-		if len(guess) != 1 {
-			fmt.Println("Invalid letter.", guess, len(guess))
+		if len(guess) == 0 {
+			fmt.Println("Invalid guess.")
 			continue
 		}
 

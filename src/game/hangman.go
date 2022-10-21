@@ -7,6 +7,7 @@ import (
 
 type Game struct {
 	State        string   // "playing", "won", "lost"
+	Word         string   // "playing", "won", "lost"
 	Letters      []string // letters in the word
 	FoundLetters []string // letters found
 	UsedLetters  []string // letters used
@@ -18,8 +19,9 @@ func New(turns int, word string) (*Game, error) {
 	if len(word) < 3 {
 		return nil, fmt.Errorf("word '%s' must be at least 3 characters. got=%v", word, len(word))
 	}
+	word = strings.ToUpper(word)
 
-	letters := strings.Split(strings.ToUpper(word), "")
+	letters := strings.Split(word, "")
 	found := make([]string, len(letters))
 	for i := 0; i < len(letters); i++ {
 		found[i] = "_"
@@ -27,6 +29,7 @@ func New(turns int, word string) (*Game, error) {
 
 	g := &Game{
 		State:        "",
+		Word:         word,
 		Letters:      letters,
 		FoundLetters: found,
 		UsedLetters:  []string{},
@@ -42,6 +45,20 @@ func (g *Game) MakeAGuess(guess string) {
 
 	switch g.State {
 	case "won", "lost":
+		return
+	}
+
+	if len(guess) > 1 {
+		if guess == g.Word {
+			g.State = "won"
+		} else {
+			g.State = "badWord"
+			g.TurnsLeft -= 2
+
+			if g.TurnsLeft <= 0 {
+				g.State = "lost"
+			}
+		}
 		return
 	}
 
